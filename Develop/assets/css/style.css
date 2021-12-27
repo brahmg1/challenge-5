@@ -76,3 +76,16 @@ textarea, button {
   background-color: #06AED5;
   color: white;
 }
+
+.saveBtn i:hover {
+  font-size: 20px;
+  transition: all .3s ease-in-out;
+}
+
+.saveBtn:focus {
+  outline: none;
+}
+
+.hour-label {
+  margin-bottom: 0px;
+}
