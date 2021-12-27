@@ -20,3 +20,48 @@ var colorCheck = function() {
         } 
     });
 }
+
+var loadEvents = function() {
+    hourlyEvents = JSON.parse(localStorage.getItem("events"));
+
+    if (!hourlyEvents) {
+        createHourlyEventArr();
+    } else {
+        $.each(hourlyEvents, function(index, hourObj) {
+            $('#text-area-' + hourObj.hour).val(hourObj.text)
+        });
+    }  
+}
+
+var createHourlyEventArr = function() {
+    hourlyEvents = [];
+    $.each(timeArr, function(index, hour) {
+        hourlyEvents.push({
+            hour: hour,
+            text: ""
+        });
+    });
+}
+
+// Add date to header
+$('#currentDay').text(today);
+
+loadEvents();
+colorCheck();
+
+// Run colorCheck every 10 seconds
+setInterval(function() {
+    colorCheck();
+}, 1000 * 10);
+
+// save button on row was clicked
+$(document).on('click', '.saveBtn', function() {
+    var updatedHour = parseInt(this.id);
+    var updatedText = ($('#text-area-' + updatedHour).val().trim());
+    $.each(hourlyEvents, function(index, hourObj) {
+        if (hourObj.hour === updatedHour) {
+            hourObj.text = updatedText;
+        }
+    });
+    localStorage.setItem("events", JSON.stringify(hourlyEvents));
+});
